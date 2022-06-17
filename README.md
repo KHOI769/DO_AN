@@ -1,35 +1,47 @@
 # Hướng dẫn sử dụng
-B1: Bạn cần mở file demo_sigopt.py sao chép code và bạn cần đăng nhập vào google colab tạo dự án và dán đoạn mã vừa copy vào.
+*Đầu tiên bạn cần truy cập vào google colab và tạo một dự án mới và copy mã từ file demo_sigopt.py.
 
-B2: 
-Đầu cần chạy đoạn mã cài đặt thư viện sigopt cho dự án.
+**B1: IMPORT THƯ VIỆN SIGOPT**
 
-!pip install sigopt 
+!pip install sigopt
 
-B3:
-Lấy API_TOKEN "Đầu tiên chúng ta cần đăng nhập vầo Sigopt và chọn vào phần API Tokens để lấy API Token có mã như sao JIGCTDCWFICIUSWUHDJIGFUUKSTRLWMCKRJXBDIDQILQTVFW".
+**B2: LẤY API TOKEN BẰNG CÁCH BẠN CẦN ĐĂNG NHẬP VÀO SOGOPT VÀ COPY MÃ API TOKENS CỦA MÌNH CÓ MÃ NHƯ SAU: JIGCTDCWFICIUSWUHDJIGFUUKSTRLWMCKRJXBDIDQILQTVFW, VÀ SỬ DỤNG ĐOẠN MÃ SAU ĐỂ LIÊN KẾT VỚI SIGOPT.**
 
 import sigopt
+
 %load_ext sigopt
+
 %sigopt config
 
-B4:Import thư viện.
+**B3: IMPORT MỘT SỐ THƯ VIỆN CẦN THIẾT **
 
 from xgboost import XGBClassifier
+
 from sklearn.multiclass import OneVsRestClassifier
+
 from sklearn.model_selection import cross_val_score
+
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
+
 from sklearn import datasets
+
 import numpy
+
 import sigopt
+
 import time
 
-B5:Tải tập dữ liệu "Tải tập dữ liệu sklearn và các tính năng tỷ lệ về giá trị trung bình bằng 0, phương sai đơn vị.".
+**B4: TẢI TẬP DỮ LIỆU**
 
 DATASET_NAME = "Sklearn Wine"
+
 FEATURE_ENG_PIPELINE_NAME = "Sklearn Standard Scalar"
+
 PREDICTION_TYPE = "Multiclass"
+
 DATASET_SRC = "sklearn.datasets"
+
+
 def get_data():
 
   """
@@ -49,14 +61,12 @@ def get_data():
 
   return (X_scaled, Y)
   
-B6:Bây giờ chúng ta tạo hàm chức năng cho mô hình "eval_xgboost_model khởi tạo một bộ phân loại xgboost cho mỗi lớp trong tập dữ liệu 3 lớp của chúng ta và đánh giá bộ phân loại. number_of_cross_val_folds trước khi báo cáo điểm trung bình và thời gian để khởi tạo và đào tạo các mô hình.".
-
-#max_depth: Độ sâu tối đa cây quyết định 
-#learning_rate: Thời gian học sau mỗi bước tăng cường
-#min_split_loss:Giảm tổn thất tối thiểu cần thiết để thực hiện một phân vùng tiếp theo trên một nút của cây quết định.
+**B5: TẠO HÀM CHỨC NĂNG CHO MÔ HÌNH**
 
 MODEL_NAME = "OneVsRestClassifier(XGBoostClassifier)"
+
 def evaluate_xgboost_model(X, y,
+
                            number_of_cross_val_folds=5,
                            max_depth=6,
                            learning_rate=0.3,
@@ -75,14 +85,9 @@ def evaluate_xgboost_model(X, y,
     training_and_validation_time = (tf-t0)
     return numpy.mean(cv_accuracies), training_and_validation_time
     
-  B7: Hàm thứ hai run_and_track_in_sigopt sử dụng các phương pháp SigOpt để ghi nhật ký và theo dõi thông tin mô hình chính bao gồm:
-        Loại mô hình được sử dụng (sigopt.log_model)
-        Tên của tập dữ liệu (sigopt.log_dataset)
-        Các siêu tham số được sử dụng để xây dựng mô hình (sigopt.params. [PARAMETER_NAME])
-        Các thuộc tính khác nhau có liên quan đến mô hình (sigopt.log_metadata)
-        Số liệu đầu ra của mô hình (sigopt.log_metric).
-        
-    def run_and_track_in_sigopt():
+**B6: TẠO HÀM THEO DÕI VÀ GHI LẠI THÔNG TIN MÔ HÌNH**
+
+def run_and_track_in_sigopt():
 
     (features, labels) = get_data()
 
@@ -109,10 +114,12 @@ def evaluate_xgboost_model(X, y,
     sigopt.log_metric(name='accuracy', value=mean_accuracy)
     sigopt.log_metric(name='training and validation time (s)', value=training_and_validation_time)
     
-B8:Với lệnh %%experiment bên dưới,chúng ta cấu hình %%experiment bằng cách đặt tên cho nó, xác định độ chính xác làm chỉ số để tối đa hóa và cuối cùng đặt không gian siêu tham số bằng cách cho SigOpt chạy các giá trị trong ranh giới đã đặt. Sau đó công cụ tối ưu hóa của SigOpt trả về các giá trị cho độ sâu tối đa từ 3 và 12 và tỷ lệ học tập là 0 và 1. Cuối cùng, xác định thời gian chúng ta sẽ đào tạo mô hình của mình. Cuối cùng chúng ta sẽ huấn luyện mô hình 4 lần, tương ứng với 4 lần chạy SigOpt.
+**B7: TỐI ƯU HOÁ MÔ HÌNH**
 
 %%experiment
+
 {
+
     'name': 'XGBoost Optimization',
     'metrics': [
         {
@@ -136,7 +143,15 @@ B8:Với lệnh %%experiment bên dưới,chúng ta cấu hình %%experiment b�
     'budget': 4
 }
 
-B9: Chạy tối ưu
-Chạy tối ưu hóa bằng cách sử dụng lệnh %% optimize. SigOpt sẽ chọn cấu hình thử nghiệm tự động và thuận tiện xuất các liên kết trong thiết bị đầu cuối tới ứng dụng chạy trên web hiện tại .
+**B8: CHẠY CHƯƠNG TRÌNH**
+
 %%optimize teamdemo
+
 run_and_track_in_sigopt()
+
+
+  
+
+
+
+
