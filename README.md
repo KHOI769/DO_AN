@@ -2,15 +2,17 @@
 B1: Bạn cần mở file demo_sigopt.py sao chép code và bạn cần đăng nhập vào google colab tạo dự án và dán đoạn mã vừa copy vào.
 
 B2: Đầu cần chạy đoạn mã cài đặt thư viện sigopt cho dự án.
+
 !pip install sigopt
 
-B3:Lấy API_TOKEN
-"Đầu tiên chúng ta cần đăng nhập vầo Sigopt và chọn vào phần API Tokens để lấy API Token có mã như sao : JIGCTDCWFICIUSWUHDJIGFUUKSTRLWMCKRJXBDIDQILQTVFW".
+B3:Lấy API_TOKEN "Đầu tiên chúng ta cần đăng nhập vầo Sigopt và chọn vào phần API Tokens để lấy API Token có mã như sao : JIGCTDCWFICIUSWUHDJIGFUUKSTRLWMCKRJXBDIDQILQTVFW".
+
 import sigopt
 %load_ext sigopt
 %sigopt config
 
 B4:Import thư viện.
+
 from xgboost import XGBClassifier
 from sklearn.multiclass import OneVsRestClassifier
 from sklearn.model_selection import cross_val_score
@@ -20,13 +22,12 @@ import numpy
 import sigopt
 import time
 
-B5:Tải tập dữ liệu
-"Tải tập dữ liệu sklearn và các tính năng tỷ lệ về giá trị trung bình bằng 0, phương sai đơn vị.".
+B5:Tải tập dữ liệu "Tải tập dữ liệu sklearn và các tính năng tỷ lệ về giá trị trung bình bằng 0, phương sai đơn vị.".
+
 DATASET_NAME = "Sklearn Wine"
 FEATURE_ENG_PIPELINE_NAME = "Sklearn Standard Scalar"
 PREDICTION_TYPE = "Multiclass"
 DATASET_SRC = "sklearn.datasets"
-
 def get_data():
 
   """
@@ -46,15 +47,13 @@ def get_data():
 
   return (X_scaled, Y)
   
-B6:Bây giờ chúng ta tạo hàm chức năng cho mô hình
-"eval_xgboost_model khởi tạo một bộ phân loại xgboost cho mỗi lớp trong tập dữ liệu 3 lớp của chúng ta và đánh giá bộ phân loại.
-number_of_cross_val_folds trước khi báo cáo điểm trung bình và thời gian để khởi tạo và đào tạo các mô hình.".
+B6:Bây giờ chúng ta tạo hàm chức năng cho mô hình "eval_xgboost_model khởi tạo một bộ phân loại xgboost cho mỗi lớp trong tập dữ liệu 3 lớp của chúng ta và đánh giá bộ phân loại. number_of_cross_val_folds trước khi báo cáo điểm trung bình và thời gian để khởi tạo và đào tạo các mô hình.".
 
 #max_depth: Độ sâu tối đa cây quyết định 
 #learning_rate: Thời gian học sau mỗi bước tăng cường
 #min_split_loss:Giảm tổn thất tối thiểu cần thiết để thực hiện một phân vùng tiếp theo trên một nút của cây quết định.
-MODEL_NAME = "OneVsRestClassifier(XGBoostClassifier)".
 
+MODEL_NAME = "OneVsRestClassifier(XGBoostClassifier)"
 def evaluate_xgboost_model(X, y,
                            number_of_cross_val_folds=5,
                            max_depth=6,
