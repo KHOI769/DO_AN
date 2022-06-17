@@ -1,11 +1,13 @@
 # Hướng dẫn sử dụng
 B1: Bạn cần mở file demo_sigopt.py sao chép code và bạn cần đăng nhập vào google colab tạo dự án và dán đoạn mã vừa copy vào.
 
-B2: Đầu cần chạy đoạn mã cài đặt thư viện sigopt cho dự án.
+B2: 
+Đầu cần chạy đoạn mã cài đặt thư viện sigopt cho dự án.
 
-!pip install sigopt
+!pip install sigopt 
 
-B3:Lấy API_TOKEN "Đầu tiên chúng ta cần đăng nhập vầo Sigopt và chọn vào phần API Tokens để lấy API Token có mã như sao JIGCTDCWFICIUSWUHDJIGFUUKSTRLWMCKRJXBDIDQILQTVFW".
+B3:
+Lấy API_TOKEN "Đầu tiên chúng ta cần đăng nhập vầo Sigopt và chọn vào phần API Tokens để lấy API Token có mã như sao JIGCTDCWFICIUSWUHDJIGFUUKSTRLWMCKRJXBDIDQILQTVFW".
 
 import sigopt
 %load_ext sigopt
