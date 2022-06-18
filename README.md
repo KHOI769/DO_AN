@@ -1,5 +1,5 @@
 # Hướng dẫn sử dụng
-*Đầu tiên bạn cần truy cập vào google colab và tạo một dự án mới và copy mã từ file demo_sigopt.py.
+*Đầu tiên bạn cần truy cập vào google colab và tạo một dự án mới và copy mã từ file demo_sigopt.py hoặc file DEMO_SIGOPT.ipynb .
 
 **B1: IMPORT THƯ VIỆN SIGOPT**
 
